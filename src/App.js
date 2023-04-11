@@ -21,7 +21,7 @@ const config = {
 };
 
 function preload() {
-  this.parallaxManager = new ParallaxManager(this, this.config);
+  this.parallaxManager = new ParallaxManager(this, 'darkForest', 10);
   this.parallaxManager.preload();
   this.load.image("logo", "assets/sprites/phaser3-logo.png");
   this.load.image("red", "assets/particles/red.png");

@@ -1,9 +1,8 @@
-import Phaser from "phaser";
-
 class ParallaxManager {
-  constructor(scene, config) {
+  constructor(scene, backgroundName, numberOfLayers) {
     this.scene = scene;
-    this.config = config;
+    this.backgroundName = backgroundName;
+    this.numberOfLayers = numberOfLayers;
     this.backgrounds = [];
   }
 
@@ -11,21 +10,15 @@ class ParallaxManager {
     this.scene.load.setBaseURL("/assets");
 
     // Charger les images de fond pour la parallaxe
-    for (let i = 1; i <= 10; i++) {
-      this.scene.load.image(`Layer_${i}`, `background/Layer_${i}.png`);
+    for (let i = 1; i <= this.numberOfLayers; i++) {
+      this.scene.load.image(`Layer_${i}`, `backgrounds/${this.backgroundName}/Layer_${i}.png`);
     }
   }
 
   create() {
     // Créer les couches de fond pour la parallaxe
     for (let i = 1; i <= 10; i++) {
-      const bg = this.scene.add.tileSprite(
-        0,
-        0,
-        this.scene.scale.width,
-        this.scene.scale.height,
-        `Layer_${i}`
-      );
+      const bg = this.scene.add.tileSprite(0, 0, this.scene.scale.width, this.scene.scale.height, `Layer_${i}`);
       bg.setOrigin(0, 0);
       bg.setScrollFactor((i - 1) * 0.1);
 
