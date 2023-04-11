@@ -21,14 +21,17 @@ const config = {
 };
 
 function preload() {
-  this.parallaxManager = new ParallaxManager(this, 'darkForest', 10);
+  this.parallaxManager = new ParallaxManager(this, "darkForest", 10);
   this.parallaxManager.preload();
-  this.load.image("logo", "assets/sprites/phaser3-logo.png");
-  this.load.image("red", "assets/particles/red.png");
+  this.load.audio("main", "musique/main.mp3");
 }
 
 function create() {
   this.parallaxManager.create();
+
+  this.music = this.sound.add("main", { loop: true });
+  this.music.setVolume(0.25);
+  this.music.play();
 
   var particles = this.add.particles("red");
 
