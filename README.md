@@ -1,10 +1,11 @@
 # Skybound Odyssey
 
 Skybound Odyssey est un jeu d'arcade passionnant en 2D basé sur un seul bouton, dans lequel les joueurs contrôlent un personnage équipé d'un jetpack pour éviter les obstacles et collecter des bonus. Le jeu est développé en utilisant Phaser et React pour offrir une expérience de jeu Web moderne et réactive.
-Prérequis
 
-    Node.js (version 12.x ou supérieure)
-    NPM (version 6.x ou supérieure)
+## Prérequis
+
+- Node.js (version 12.x ou supérieure)
+- NPM (version 6.x ou supérieure)
 
 ## Installation
 
