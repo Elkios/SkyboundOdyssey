@@ -7,11 +7,9 @@ class ParallaxManager {
   }
 
   preload() {
-    this.scene.load.setBaseURL("/assets");
-
     // Charger les images de fond pour la parallaxe
     for (let i = 1; i <= this.numberOfLayers; i++) {
-      this.scene.load.image(`Layer_${i}`, `backgrounds/${this.backgroundName}/Layer_${i}.png`);
+      this.scene.load.image(`Layer_${i}`, `assets/backgrounds/${this.backgroundName}/Layer_${i}.png`);
     }
   }
 
@@ -34,7 +32,7 @@ class ParallaxManager {
     // Mettre à jour les arrière-plans pour l'effet de parallaxe
     this.backgrounds.forEach((bg, index) => {
       const speed = 0.1 * (index + 1) * 0.5;
-      bg.tilePositionX += speed;
+      bg.tilePositionX += speed * 10;
     });
   }
 }

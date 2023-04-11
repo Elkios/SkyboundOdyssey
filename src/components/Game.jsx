@@ -8,14 +8,6 @@ const Game = ({ config }) => {
         const game = new Phaser.Game(config);
         gameRef.current = game;
 
-        function resize() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            game.scale.resize(width, height);
-        }
-
-        window.addEventListener('resize', resize);
-
         return () => {
             game.destroy(true);
         };
