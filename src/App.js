@@ -30,8 +30,9 @@ function create() {
   this.parallaxManager.create();
 
   this.music = this.sound.add("main", { loop: true });
-  this.music.setVolume(0.25);
+  this.music.setVolume(0.15);
   this.music.play();
+  this.music.setMute(false);
 
   var particles = this.add.particles("red");
 
