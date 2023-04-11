@@ -21,16 +21,32 @@ const config = {
 
 function preload ()
 {
-  this.load.setBaseURL('https://labs.phaser.io');
+  this.load.setBaseURL('/assets');
 
-  this.load.image('sky', 'assets/skies/space3.png');
+  // Charger les images de fond pour la parallaxe
+  for (let i = 1; i <= 10; i++) {
+    this.load.image(`Layer_${i}`, `background/Layer_${i}.png`);
+  }
+
   this.load.image('logo', 'assets/sprites/phaser3-logo.png');
   this.load.image('red', 'assets/particles/red.png');
 }
 
 function create ()
 {
-  this.add.image(400, 300, 'sky');
+  // Créer les couches de fond pour la parallaxe
+  this.backgrounds = [];
+  for (let i = 1; i <= 10; i++) {
+    const bg = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, `Layer_${i}`);
+    bg.setOrigin(0, 0);
+    bg.setScrollFactor((i - 1) * 0.1);
+
+    // Répéter l'image de fond horizontalement
+    const scaleX = this.scale.width / bg.width;
+    bg.setTileScale(scaleX, 1);
+
+    this.backgrounds.push(bg);
+  }
 
   var particles = this.add.particles('red');
 
@@ -51,7 +67,11 @@ function create ()
 
 
 function update() {
-  // Gérer les mises à jour du jeu à chaque image (entrées utilisateur, collisions, etc.) ici
+  // Mettre à jour les arrière-plans pour l'effet de parallaxe
+  this.backgrounds.forEach((bg, index) => {
+    const speed = 0.1 * (index + 1) * 0.5;
+    bg.tilePositionX += speed;
+  });
 }
 
 
