@@ -1,71 +1,46 @@
-# Getting Started with Create React App
+# Skybound Odyssey
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Skybound Odyssey est un jeu d'arcade passionnant en 2D basé sur un seul bouton, dans lequel les joueurs contrôlent un personnage équipé d'un jetpack pour éviter les obstacles et collecter des bonus. Le jeu est développé en utilisant Phaser et React pour offrir une expérience de jeu Web moderne et réactive.
+Prérequis
 
-## Available Scripts
+    Node.js (version 12.x ou supérieure)
+    NPM (version 6.x ou supérieure)
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+1. Clonez le dépôt Git :
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+git clone https://github.com/votre-nom-dutilisateur/skybound-odyssey.git
+```
+2. Accédez au répertoire du projet :
 
-### `npm test`
+```bash
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+cd skybound-odyssey
+```
+3. Installez les dépendances du projet :
 
-### `npm run build`
+```bash
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Exécution du projet
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Pour exécuter le projet en mode développement, exécutez la commande suivante :
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+Le jeu sera disponible à l'adresse http://localhost:3000 dans votre navigateur.
+Compilation et déploiement
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Pour créer une version de production optimisée de votre jeu, exécutez la commande suivante :
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# GameJamEFFICOM
+Les fichiers de production seront créés dans le répertoire build. Vous pouvez déployer ces fichiers sur un serveur Web ou une plateforme de jeux en ligne de votre choix.
