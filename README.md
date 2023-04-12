@@ -10,6 +10,8 @@ Si vous souhaitez jouer à SkyBound Odyssey, vous pouvez le faire en cliquant su
 
 SkyBound Odyssey est un projet créatif réalisé lors d'un workshop de 2,5 jours à EFFICOM Lille du 11 au 13 avril 2023.
 
+Ce projet à été réalisé par une équipe de 6 personnes en effectuant du pair-programming.
+
 ## Équipe
 
 - LAMOUR Florentin - _5DIG-A_ - _Chef d’équipe_ 
@@ -18,6 +20,15 @@ SkyBound Odyssey est un projet créatif réalisé lors d'un workshop de 2,5 jour
 - JOUNIAU Jules - _4TEC-A_ 
 - HARDELIN Valentin - _4TEC-A_ 
 - VAYR Hugo - _3TEC-A_
+
+## Fonctionnalités du jeu
+
+- Gameplay "One Button" : contrôlez votre personnage avec un seul bouton, rendant le jeu accessible et facile à prendre en main.
+- Jetpack : utilisez votre jetpack pour vous propulser dans les airs et éviter les obstacles.
+- Collecte de pièces : ramassez des pièces en cours de route pour augmenter votre score et améliorer vos chances de figurer dans le classement.
+- Classement en ligne : enregistrez votre score et comparez vos performances avec celles des autres joueurs du monde entier.
+- Obstacles et défis variés : faites face à des obstacles et des défis toujours plus complexes au fur et à mesure que vous progressez dans le jeu.
+- Musique et effets sonores immersifs : profitez d'une bande-son entraînante et d'effets sonores saisissants pour une expérience de jeu complète.
 
 ---
 
