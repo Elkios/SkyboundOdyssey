@@ -28,12 +28,20 @@ class GameScene extends Phaser.Scene {
         });
 
         // Obstacles
-        this.load.image("obstacle", "assets/obstacle/obstacle.png");
+        this.load.image("spike1", "assets/obstacles/spike/spike_1.png");
+        this.load.image("woodFenceSingle", "assets/obstacles/woodfence/single.png");
+        this.load.image("woodFenceMultiple", "assets/obstacles/woodfence/multiple.png");
 
         // Ghost
         for (let i = 1; i <= 30; i++) {
             this.load.image(`ghost_frame_${i}`, `assets/obstacles/ghost/animation/skeleton-animation_${i}.png`);
         }
+
+        // Lightning Trap
+        this.load.spritesheet("lightning_trap", "assets/obstacles/lightningTrap/lightningTrap.png", {
+            frameWidth: 96,
+            frameHeight: 89,
+        });
 
         // Gold Coins
         this.load.image("goldCoin", "assets/coins/gold/coin.png");
@@ -46,6 +54,10 @@ class GameScene extends Phaser.Scene {
 
         // Audio piece
         this.load.audio("coin_pickup", "assets/coins/gold/sound/coin_pickup.mp3");
+
+        // Audio footstep & jetpack
+        this.load.audio("footsteps", "assets/player/sound/footsteps.mp3");
+        this.load.audio("jetpack", "assets/player/sound/jetpack.mp3");
     }
 
     create() {
@@ -105,7 +117,7 @@ class GameScene extends Phaser.Scene {
         this.obstacles = this.physics.add.group();
         this.coins = this.physics.add.group();
 
-        // Aniamtion ghost
+        // Animation ghost
         this.anims.create({
             key: "ghost_animation",
             frames: Array.from({length: 30}, (_, i) => ({
@@ -115,6 +127,15 @@ class GameScene extends Phaser.Scene {
             frameRate: 10,
             repeat: -1,
         });
+
+        // Animation lightning trap
+        this.anims.create({
+            key: "lightning_trap_animation",
+            frames: this.anims.generateFrameNumbers("lightning_trap", {start: 0, end: 21}),
+            frameRate: 10,
+            repeat: -1,
+        });
+
 
         // Animation piece
         this.anims.create({
@@ -130,8 +151,12 @@ class GameScene extends Phaser.Scene {
         // Audio piece
         this.coinPickupSound = this.sound.add("coin_pickup");
 
+        // Audio footstep & jetpack
+        this.footstepsSound = this.sound.add("footsteps");
+        this.jetpackSound = this.sound.add("jetpack");
+
         this.time.addEvent({
-            delay: 4000, // Toutes les 2 secondes
+            delay: 6000,
             callback: this.spawnPattern,
             callbackScope: this,
             loop: true,
@@ -148,6 +173,7 @@ class GameScene extends Phaser.Scene {
             this.character.setVelocityX(
                 this.character.x < window.innerWidth / 2 ? 300 : 0
             )
+
         } else if (this.cursors.space.isUp) {
             if (this.character.body.onFloor()) {
                 this.character.setVelocityY(0);
@@ -187,41 +213,97 @@ class GameScene extends Phaser.Scene {
     }
 
     spawnPattern() {
+        // X => Horizontal | Y => Vetical
         const patterns = [
-            // pattern 1
             [
-                { type: "ghost", x: 200, y: 100 },
-                { type: "coin", x: 250, y: 150 },
+                { type: "lightningTrap", x: 0, y: 100 },
+                { type: "coin", x: -100, y: 300 },
+                { type: "coin", x: 0, y: 300 },
+                { type: "coin", x: 100, y: 300 },
+                { type: "lightningTrap", x: 0, y: window.innerHeight / 2 },
+                { type: "coin", x: -100, y: window.innerHeight - 300 },
+                { type: "coin", x: 0, y: window.innerHeight - 300 },
+                { type: "coin", x: 100, y: window.innerHeight - 300 },
+                { type: "lightningTrap", x: 0, y: window.innerHeight - 100 },
             ],
-            // pattern 2
             [
-                { type: "ghost", x: 300, y: 200 },
-                { type: "coin", x: 350, y: 250 },
+                { type: "ghost", x: 0, y: 100 },
+                { type: "ghost", x: 0, y: 275 },
+                { type: "coin", x: 0, y: window.innerHeight / 2 },
+                { type: "ghost", x: 0, y: window.innerHeight - 275 },
+                { type: "ghost", x: 0, y: window.innerHeight - 100 },
             ],
-            // Ajoutez d'autres patterns ici
+            [
+                { type: "spike1", x: 0, y: window.innerHeight - 30 },
+                { type: "coin", x: 0, y: window.innerHeight - 200 },
+                { type: "spike1", x: 150, y: window.innerHeight - 30 },
+                { type: "coin", x: 150, y: window.innerHeight - 200 },
+                { type: "coin", x: 300, y: window.innerHeight - 100 },
+                { type: "spike1", x: 500, y: window.innerHeight - 30 },
+                { type: "coin", x: 500, y: window.innerHeight - 200 },
+                { type: "spike1", x: 650, y: window.innerHeight - 30 },
+                { type: "coin", x: 650, y: window.innerHeight - 200 },
+            ],
+            // [
+            //     { type: "woodFenceSingle", x: 0, y: 60, rotation: 180 },
+            //     { type: "coin", x: 0, y: 0 },
+            // ],
+            // [
+            //     { type: "woodFenceMultiple", x: 0, y: window.innerHeight },
+            //     { type: "coin", x: 0, y: 0 },
+            // ],
         ];
 
         const pattern = Phaser.Utils.Array.GetRandom(patterns);
         pattern.forEach((item) => {
-            if (item.type === "obstacle") {
-                const obstacle = this.obstacles.create(this.scale.width + item.x, item.y, "obstacle");
-                obstacle.setVelocityX(-200);
-                obstacle.body.allowGravity = false;
-                obstacle.setScale(0.25);
-            } else if (item.type === "ghost") {
-                const ghost = this.obstacles.create(this.scale.width + item.x, item.y, "ghost_frame_1");
-                ghost.setVelocityX(-200);
-                ghost.body.allowGravity = false;
-                ghost.anims.play("ghost_animation");
-                ghost.setScale(0.25);
-            } else if (item.type === "coin") {
-                const coin = this.coins.create(this.scale.width + item.x, item.y, "goldCoin");
-                coin.setVelocityX(-200);
-                coin.body.allowGravity = false;
-                coin.anims.play("coin_rotate");
-                coin.setScale(0.1);
-            }
+            this.createGameObject(item);
         });
+    }
+
+    createGameObject(item) {
+        let gameObject;
+
+        switch (item.type) {
+            case "spike1":
+                gameObject = this.obstacles.create(this.scale.width + item.x, item.y, "spike1");
+                gameObject.setScale(0.2);
+                break;
+            case "woodFenceSingle":
+                gameObject = this.obstacles.create(this.scale.width + item.x, item.y, "woodFenceSingle");
+                gameObject.setScale(0.4);
+                break;
+            case "woodFenceMultiple":
+                gameObject = this.obstacles.create(this.scale.width + item.x, item.y, "woodFenceMultiple");
+                gameObject.setScale(0.4);
+                break;
+            case "ghost":
+                gameObject = this.obstacles.create(this.scale.width + item.x, item.y, "ghost_frame_1");
+                gameObject.anims.play("ghost_animation");
+                gameObject.setScale(0.25);
+                break;
+            case "lightningTrap":
+                gameObject = this.obstacles.create(this.scale.width + item.x, item.y, "lightning_trap");
+                gameObject.anims.play("lightning_trap_animation");
+                gameObject.setScale(1.5);
+                break;
+            case "coin":
+                gameObject = this.coins.create(this.scale.width + item.x, item.y, "goldCoin");
+                gameObject.anims.play("coin_rotate");
+                gameObject.setScale(0.1);
+                break;
+        }
+
+        if (gameObject) {
+            gameObject.setVelocityX(-200);
+            gameObject.body.allowGravity = false;
+
+            // Appliquer la rotation si elle est définie dans l'objet "item"
+            if (item.rotation) {
+                gameObject.angle = item.rotation;
+            }
+        }
+
+        return gameObject;
     }
 }
 
