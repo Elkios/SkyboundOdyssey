@@ -116,12 +116,16 @@ class TravelDistanceLeaderboardScene extends Phaser.Scene {
 
         const dbCrud = new dbCRUD();
         let leaderboardData = dbCrud.getLeaderBoard();
+        let leaderboardEntries = 0;
+
         if (leaderboardData !== undefined) {
             let i = 1;
             const leaderBoardMap = this.dataSort(leaderboardData, "travelDistance");
-            leaderBoardMap.forEach( (value, key, map) => {
-                if (i>10) return;
-                const leaderboardText = this.add.text(this.scale.width / 2, (this.scale.height / 3.6) + (i-1)*50, i + ' - ' + key + ' | distance = ' + value, {
+            leaderboardEntries = Math.min(leaderBoardMap.size, 10);
+
+            leaderBoardMap.forEach((value, key, map) => {
+                if (i > 10) return;
+                const leaderboardText = this.add.text(this.scale.width / 2, (this.scale.height / 3.6) + (i - 1) * 50, i + ' - ' + key + ' | distance = ' + value, {
                     fontSize: "32px",
                     fontStyle: "bold",
                     color: "#FFD700",
