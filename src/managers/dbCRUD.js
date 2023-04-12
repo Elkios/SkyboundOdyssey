@@ -7,10 +7,11 @@ class dbCRUD {
     getLeaderBoard() {
         const db = getDatabase();
         const starCountRef = ref(db, '/');
+        let data;
         onValue(starCountRef, (snapshot) => {
-            const data = snapshot.val();
-            return data;
+            data = snapshot.val();
         });
+        return data;
     }
 
     setRank(username, distance, coins) {
@@ -22,7 +23,7 @@ class dbCRUD {
             (coins != null || coins !== undefined)) {
             set(ref(db, '/' + uuid), {
                 username: username,
-                distance: distance,
+                travelDistance: distance,
                 coins: coins
             });
         }

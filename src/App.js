@@ -3,12 +3,15 @@ import Game from "./components/Game";
 import Phaser from "phaser";
 import MenuScene from "./scenes/Menu";
 import GameScene from "./scenes/Game";
+import LeaderboardScene from "./scenes/Leaderboard";
+import TravelDistanceLeaderboardScene from "./scenes/TravelDistanceLeaderboard";
+import CoinsLeaderBoardScene from "./scenes/CoinsLeaderboard";
 
 const config = {
   type: Phaser.AUTO, // Utilise WebGL si disponible, sinon utilise Canvas
   width: window.innerWidth,
   height: window.innerHeight,
-  scene: [MenuScene, GameScene],
+  scene: [MenuScene, GameScene, LeaderboardScene, CoinsLeaderBoardScene, TravelDistanceLeaderboardScene],
   physics: {
     default: "arcade",
     arcade: {
