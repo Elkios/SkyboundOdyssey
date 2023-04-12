@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Game from "./components/Game";
 import Phaser from "phaser";
 import MenuScene from "./scenes/Menu";
@@ -17,7 +17,23 @@ const config = {
   },
 };
 
+const generateUUID = () => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = (Math.random() * 16) | 0,
+        v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 function App() {
+
+  useEffect(() => {
+    // init a uuid for the user and store it in local storage
+    if (!localStorage.getItem("uuid")) {
+      const uuid = generateUUID();
+      localStorage.setItem("uuid", uuid);
+    }
+  }, []);
+
   return (
       <div className="App">
         <Game config={config} />

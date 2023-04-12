@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import ParallaxManager from "../managers/ParallaxManager";
+import dbCRUD from "../managers/dbCRUD"
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -10,6 +11,8 @@ class GameScene extends Phaser.Scene {
     character;
     cursors;
     parallaxManager = new ParallaxManager(this, 'darkForest', 10);
+    dbCRUD = new dbCRUD();
+
 
     preload() {
         // Load character spritesheet
