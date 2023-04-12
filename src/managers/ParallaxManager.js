@@ -6,6 +6,10 @@ class ParallaxManager {
     this.backgrounds = [];
   }
 
+  reset() {
+    this.backgrounds = [];
+  }
+
   preload() {
     // Charger les images de fond pour la parallaxe
     for (let i = 1; i <= this.numberOfLayers; i++) {
@@ -28,13 +32,25 @@ class ParallaxManager {
     }
   }
 
-  update() {
+  update(distance) {
+    // Calculate the speed factor based on the distance
+    const speedFactor = 1 + Math.floor(distance / 1000) * 0.1;
+    let layerSpeed;
+
     // Mettre à jour les arrière-plans pour l'effet de parallaxe
     this.backgrounds.forEach((bg, index) => {
-      const speed = 0.1 * (index + 1) * 0.5;
-      bg.tilePositionX += speed * 10;
+      const speed = 0.1 * (index + 1) * 10 * speedFactor;
+      bg.tilePositionX += speed
+
+      // Store the speed of the first layer
+      if (index === 0) {
+        layerSpeed = speed;
+      }
     });
+
+    return layerSpeed
   }
+
 }
 
 export default ParallaxManager;
