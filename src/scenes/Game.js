@@ -16,11 +16,13 @@ class GameScene extends Phaser.Scene {
     distanceText;
 
     isDead = false;
+    isGameOver = false;
 
     reset() {
         this.distance = 0;
         this.parallaxManager.reset();
         this.isDead = false;
+        this.isGameOver = false;
         this.obstacles.clear(true, true);
     }
 
@@ -184,9 +186,9 @@ class GameScene extends Phaser.Scene {
     }
 
     showGameOverScreen() {
-        // Add a semi-transparent black rectangle
-        const darkOverlay = this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x000000, 0.5);
-        darkOverlay.setOrigin(0, 0);
+        this.isGameOver = true;
+        // Stop player animation
+        this.character.anims.stop();
         // Show a Game Over screen with the distance traveled
         const gameOverText = `Game Over\nDistance parcourue : ${Math.floor(this.distance)} m`;
         this.add.text(this.scale.width / 2, this.scale.height / 2, gameOverText, {
@@ -194,6 +196,9 @@ class GameScene extends Phaser.Scene {
             fill: '#FFF',
             align: 'center',
         }).setOrigin(0.5, 0.5);
+        // Add button image to the button
+        const buttonImage = this.add.image(this.scale.width / 2, this.scale.height / 2 + 100, "blueAtlas", "blue_button02.png");
+        buttonImage.setOrigin(0.5, 0.5);
         // Add a revive button
         const reviveButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 100, "Recommencer", {
             fontSize: '32px',
@@ -205,6 +210,24 @@ class GameScene extends Phaser.Scene {
             this.reset();
             this.scene.restart();
         }, this);
+        // Resize the button to fit the text
+        buttonImage.displayWidth = reviveButton.width + 20;
+        buttonImage.displayHeight = reviveButton.height + 20;
+        // Center the text in the button
+        Phaser.Display.Align.In.Center(
+            reviveButton,
+            buttonImage
+        );
+        // On Hover change the button image
+        reviveButton.on("pointerover", () => {
+            buttonImage.setFrame("blue_button03.png");
+        });
+        reviveButton.on("pointerout", () => {
+            buttonImage.setFrame("blue_button02.png");
+        });
+        // Add button image to the button
+        const menuButtonImage = this.add.image(this.scale.width / 2, this.scale.height / 2 + 200, "blueAtlas", "blue_button02.png");
+        menuButtonImage.setOrigin(0.5, 0.5);
         // Add a menu button
         const menuButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 200, "Retourner au menu", {
             fontSize: '32px',
@@ -213,6 +236,21 @@ class GameScene extends Phaser.Scene {
         }).setOrigin(0.5, 0.5);
         menuButton.setInteractive();
         menuButton.on("pointerdown", this.goToMenu, this);
+        // Resize the button to fit the text
+        menuButtonImage.displayWidth = menuButton.width + 20;
+        menuButtonImage.displayHeight = menuButton.height + 20;
+        // On hover change image
+        menuButton.on("pointerover", () => {
+            menuButtonImage.setFrame("blue_button03.png");
+        }, this);
+        menuButton.on("pointerout", () => {
+            menuButtonImage.setFrame("blue_button02.png");
+        }, this);
+        // Center the text in the button
+        Phaser.Display.Align.In.Center(
+            menuButton,
+            menuButtonImage
+        );
 
         // Stop music
         this.music.stop();
@@ -223,12 +261,15 @@ class GameScene extends Phaser.Scene {
     }
 
     update(time, delta) {
+        if (this.isGameOver) return
         const isOnFloor = this.character.body.blocked.down || this.character.body.touching.down;
 
         // If the character is dead
         if (this.isDead) {
             const velocityY = this.character.body.velocity.y;
             if (isOnFloor && velocityY <= 0) {
+                this.character.setVelocityY(0);
+                this.character.setVelocityX(0);
                 this.character.anims.play("idle_die", true)
                     .on("animationcomplete", () => {
                         // Disable collisions
@@ -242,8 +283,8 @@ class GameScene extends Phaser.Scene {
                     }, this);
             } else {
                 this.character.anims.play("flying_die", true);
+                this.character.setVelocityY(1000);
             }
-            this.character.setVelocityY(1000);
             return
         }
 
