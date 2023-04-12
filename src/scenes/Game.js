@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
+import PatternManager from '../managers/PatternManager';
 import ParallaxManager from "../managers/ParallaxManager";
 import dbCRUD from "../managers/dbCRUD"
+import { DOMInputElement } from 'phaser';
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -21,6 +23,10 @@ class GameScene extends Phaser.Scene {
     isDead = false;
     isGameOver = false;
 
+    patternManager = new PatternManager(this, () => {
+        this.gameOver()
+    });
+
     reset() {
         this.distance = 0;
         this.parallaxManager.reset();
@@ -29,29 +35,11 @@ class GameScene extends Phaser.Scene {
         this.obstacles.clear(true, true);
     }
 
-    spawnObstacle() {
-        const minY = 100; // La hauteur minimale de l'obstacle
-        const maxY = this.scale.height - 100; // La hauteur maximale de l'obstacle
-        const y = Math.floor(Math.random() * (maxY - minY)) + minY; // Position Y aléatoire entre minY et maxY
-
-        const minSize = 50; // La taille minimale de l'obstacle
-        const maxSize = 200; // La taille maximale de l'obstacle
-        const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize; // Taille aléatoire entre minSize et maxSize
-
-        const obstacle = this.obstacles.create(this.scale.width, y, null);
-        obstacle.setDisplaySize(size, size);
-        obstacle.body.setAllowGravity(false);
-        obstacle.setOrigin(0.5, 0.5);
-        obstacle.setVelocityX(-300);
-        obstacle.setCollideWorldBounds(false);
-    }
-
     goToMenu = () => {
         this.music.stop();
         this.reset();
         this.scene.start("MenuScene");
     }
-
 
     preload() {
         // Load character spritesheet
@@ -85,6 +73,13 @@ class GameScene extends Phaser.Scene {
         this.parallaxManager.preload();
         this.load.audio("main", "assets/musics/main.mp3");
         this.load.audio("gameover", "assets/musics/gameover.mp3");
+
+        // Audio footstep & jetpack
+        this.load.audio("footsteps", "assets/player/sound/footsteps.mp3");
+        this.load.audio("jetpack", "assets/player/sound/jetpack.mp3");
+
+        // Load pattern Manager
+        this.patternManager.preload();
     }
 
     create() {
@@ -142,10 +137,18 @@ class GameScene extends Phaser.Scene {
             "character_idle"
         );
         this.character.setCollideWorldBounds(true);
-        this.character.setScale(0.3);
+        this.character.setScale(0.2);
 
         // Contrôles
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        // Audio footstep & jetpack
+        this.footstepsSound = this.sound.add("footsteps");
+        this.jetpackSound = this.sound.add("jetpack");
+        this.jetpackSound.setVolume(0.2);
+
+        // Pattern Manager
+        this.patternManager.create();
 
         this.add.existing(this.character);
 
@@ -166,7 +169,6 @@ class GameScene extends Phaser.Scene {
         );
         // Obstacles
         this.obstacles = this.physics.add.group();
-        this.lastObstacleTime = 0;
         this.physics.add.collider(this.character, this.obstacles, this.gameOver, null, this);
 
     }
@@ -176,8 +178,13 @@ class GameScene extends Phaser.Scene {
         this.isDead = true;
 
         // Stop the music and animations
-        this.music.stop();
+        if (this.music) { this.music.stop(); }
+        this.footstepsSound.stop();
+        this.jetpackSound.stop()
         this.character.anims.stop();
+        this.character.setVelocityX(0)
+
+        this.patternManager.stop()
 
         // Play the flying_die animation if the character is in the air
         const isOnFloor = this.character.body.blocked.down || this.character.body.touching.down;
@@ -186,6 +193,7 @@ class GameScene extends Phaser.Scene {
         } else {
             this.character.anims.play("idle_die", true);
         }
+
     }
 
     showGameOverScreen() {
@@ -196,7 +204,7 @@ class GameScene extends Phaser.Scene {
         const gameOverText = `Game Over\nDistance parcourue : ${Math.floor(this.distance)} m`;
         this.add.text(this.scale.width / 2, this.scale.height / 2, gameOverText, {
             fontSize: '32px',
-            fill: '#FFF',
+            fill: '#000',
             align: 'center',
         }).setOrigin(0.5, 0.5);
         // Add button image to the button
@@ -255,6 +263,39 @@ class GameScene extends Phaser.Scene {
             menuButtonImage
         );
 
+        // Add a button to save the score
+        const saveScoreButtonImage = this.add.image(this.scale.width / 2, this.scale.height / 2 + 300, "blueAtlas", "blue_button02.png");
+        saveScoreButtonImage.setOrigin(0.5, 0.5);
+
+        const saveScoreButton = this.add.text(this.scale.width / 2, this.scale.height / 2 + 300, "Enregistrer le score", {
+            fontSize: '32px',
+            fill: '#FFF',
+            align: 'center',
+        }).setOrigin(0.5, 0.5);
+
+        saveScoreButton.setInteractive();
+        saveScoreButton.on("pointerdown", async () => {
+            const playerName = prompt("Entrez votre nom:");
+            if (playerName && playerName.trim() !== '') {
+                // Replace 'dbInstance' with an instance of the dbCRUD class
+                this.goToMenu()
+                await this.dbCRUD.setRank(playerName.trim(), Math.floor(this.distance), this.patternManager.getCoins());
+            }
+        }, this);
+
+        // Resize the button to fit the text
+        saveScoreButtonImage.displayWidth = saveScoreButton.width + 20;
+        saveScoreButtonImage.displayHeight = saveScoreButton.height + 20;
+
+        // On hover change the button image
+        saveScoreButton.on("pointerover", () => {
+            saveScoreButtonImage.setFrame("blue_button03.png");
+        });
+        saveScoreButton.on("pointerout", () => {
+            saveScoreButtonImage.setFrame("blue_button02.png");
+        });
+
+
         // Stop music
         this.music.stop();
         // Play the game over sound if it's not already playing
@@ -293,27 +334,28 @@ class GameScene extends Phaser.Scene {
 
         const layerSpeed = this.parallaxManager.update(this.distance);
 
-        if (time - this.lastObstacleTime > 2000) { // Générer un nouvel obstacle toutes les 2000 ms (2 secondes)
-            this.spawnObstacle();
-            this.lastObstacleTime = time;
-        }
-
         // Calculate the distance
         this.distance += layerSpeed * 66.67 * delta / 1000;
         this.distanceText.setText(`Distance: ${Math.round(this.distance)} m`);
 
+        this.patternManager.update();
+
         // If the character is dead and touches the ground, play the idle_die animation and show the Game Over screen
         // Controls for the character
-       if (this.cursors.space.isDown) {
-            console.log("space");
+        // Gérer les mises à jour du jeu à chaque image (entrées utilisateur, collisions, etc.) ici
+        // Contrôles du personnage
+        if (this.cursors.space.isDown) {
             this.character.setVelocityY(-300);
             this.character.anims.play("flying", true);
             this.character.setVelocityX(
                 this.character.x < window.innerWidth / 2 ? 300 : 0
             );
+            if (!this.jetpackSound.isPlaying) {
+                this.jetpackSound.play({loop: true});
+            }
+            this.footstepsSound.stop();
         }
         else {
-            // Update character's animations and velocity based on whether they are on the floor or not
             if (isOnFloor) {
                 console.log("on floor");
                 this.character.anims.play("running", true);
@@ -321,19 +363,22 @@ class GameScene extends Phaser.Scene {
                     this.character.x < window.innerWidth / 2 ? 300 : 0
                 );
                 this.character.setVelocityY(0);
+                if (!this.footstepsSound.isPlaying) {
+                    this.footstepsSound.play({loop: true});
+                }
+
+                this.jetpackSound.stop();
             } else {
-                console.log("in air");
                 this.character.anims.play("idle", true);
                 this.character.setVelocityX(
                     this.character.x < window.innerWidth / 2 ? 300 : 0
                 );
                 // Apply gravity when the character is not on the floor and the spacebar is not pressed
                 this.character.setVelocityY(300);
+                this.jetpackSound.stop();
             }
         }
-
     }
-
 }
 
 export default GameScene;
