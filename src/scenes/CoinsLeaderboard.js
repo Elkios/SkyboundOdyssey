@@ -11,6 +11,7 @@ class CoinsLeaderBoardScene extends Phaser.Scene {
         this.load.image("playButton", "assets/ui/play_button.png");
         // Load blueSheet assets
         this.load.atlasXML("blueAtlas", "assets/ui/blueSheet.png", "assets/ui/blueSheet.xml");
+        this.load.image('background', "assets/backgrounds/MenuBG.png");
     }
 
     dataSort(data, type) {
@@ -28,6 +29,15 @@ class CoinsLeaderBoardScene extends Phaser.Scene {
     }
 
     create() {
+        let bg = this.add.image(this.cameras.main.width /2, this.cameras.main.height /2, 'background').setOrigin(.5, .5);
+        let scaleX = this.cameras.main.width / bg.width
+        let scaleY = this.cameras.main.height / bg.height
+        let scale = Math.max(scaleX, scaleY)
+        bg.setScale(scale).setScrollFactor(0)
+
+        let rectangle = this.add.rectangle(this.scale.width / 2.4, this.scale.height / 4.5, this.scale.width/3.5, this.scale.height/1.7, "#FFD700", 100);
+
+        rectangle.setOrigin(0.2);
         // Add a simple "Play" button
         const backMenuButton = this.add.image(this.scale.width / 8, this.scale.height / 6, "blueAtlas", "blue_button00.png");
         backMenuButton.setInteractive();
@@ -99,7 +109,8 @@ class CoinsLeaderBoardScene extends Phaser.Scene {
         // Add a title text
         const titleText = this.add.text(this.scale.width / 2, this.scale.height / 6, "Leaderboard", {
             fontSize: "32px",
-            color: "#ffffff",
+            color: "#FFD700",
+            fontStyle: "bold",
         });
         titleText.setOrigin(0.5);
 
@@ -110,9 +121,10 @@ class CoinsLeaderBoardScene extends Phaser.Scene {
             const leaderBoardMap = this.dataSort(leaderboardData, "coins");
             leaderBoardMap.forEach( (value, key, map) => {
                 if (i>10) return;
-                const leaderboardText = this.add.text(this.scale.width / 2, (this.scale.height / 3.6) + (i-1)*50, i + ' - ' + key + ' coins = ' + value, {
+                const leaderboardText = this.add.text(this.scale.width / 2, (this.scale.height / 3.6) + (i-1)*50, i + ' - ' + key + ' | coins = ' + value, {
                     fontSize: "32px",
-                    color: "#ffffff",
+                    fontStyle: "bold",
+                    color: "#FFD700",
                 });
                 leaderboardText.setOrigin(0.5);
                 i++;
