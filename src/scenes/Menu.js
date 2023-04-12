@@ -38,7 +38,7 @@ class MenuScene extends Phaser.Scene {
         });
 
         // Add a title text
-        const titleText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 100, "Super Rocket Jumper", {
+        const titleText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 100, "Skybound Odyssey", {
             fontSize: "32px",
             color: "#ffffff",
         });
