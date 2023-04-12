@@ -13,9 +13,10 @@ class GameScene extends Phaser.Scene {
 
     preload() {
         // Load character spritesheet
+        // 1803×1561
         this.load.spritesheet("character_idle", "assets/player/player_standing_idle_weapon.png", {
-            frameWidth: 881,
-            frameHeight: 639
+            frameWidth: 1803 / 5,
+            frameHeight: 1561 / 3
         });
         this.load.spritesheet("character_flying", "assets/player/player_flying_weapon.png", {
             frameWidth: 881,
