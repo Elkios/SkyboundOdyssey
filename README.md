@@ -1,6 +1,25 @@
 # Skybound Odyssey
 
-Skybound Odyssey est un jeu d'arcade passionnant en 2D basé sur un seul bouton, dans lequel les joueurs contrôlent un personnage équipé d'un jetpack pour éviter les obstacles et collecter des bonus. Le jeu est développé en utilisant Phaser et React pour offrir une expérience de jeu Web moderne et réactive.
+SkyBound Odyssey 🚀 est un jeu d'aventure "One Button" captivant et dynamique. Incarnez un personnage intrépide équipé d'un jetpack 🚀 et d'une arme 🔫, prêt à affronter des défis ardus et des obstacles imprévus. Dans ce voyage épique 🌟, votre objectif est d'esquiver habilement les obstacles qui se dressent sur votre chemin, progresser le plus loin possible 🏆 tout en collectant des pièces précieuses 💰 et ainsi conquérir le top 10 du classement 🥇. Rejoignez l'odyssée de SkyBound et prouvez votre valeur en maîtrisant l'art de l'esquive dans ce monde palpitant et sans fin 🌍.
+
+## Lien 
+
+Si vous souhaitez jouer à SkyBound Odyssey, vous pouvez le faire en cliquant sur le lien suivant : [SkyBound Odyssey](https://skybound-odyssey.vercel.app/)
+
+## Contexte
+
+SkyBound Odyssey est un projet créatif réalisé lors d'un workshop de 2,5 jours à EFFICOM Lille du 11 au 13 avril 2023.
+
+## Équipe
+
+- LAMOUR Florentin - _5DIG-A_ - _Chef d’équipe_ 
+- BRUNELLE Corentin - _5TEC-A_ - _Suppléant_
+- POMIER Mathys - _5DIG-A_ 
+- JOUNIAU Jules - _4TEC-A_ 
+- HARDELIN Valentin - _4TEC-A_ 
+- VAYR Hugo - _3TEC-A_
+
+---
 
 ## Prérequis
 
@@ -12,13 +31,11 @@ Skybound Odyssey est un jeu d'arcade passionnant en 2D basé sur un seul bouton,
 1. Clonez le dépôt Git :
 
 ```bash
-
-git clone https://github.com/votre-nom-dutilisateur/skybound-odyssey.git
+git clone git@github.com:Elkios/SkyboundOdyssey.git
 ```
 2. Accédez au répertoire du projet :
 
 ```bash
-
 cd skybound-odyssey
 ```
 3. Installez les dépendances du projet :
@@ -36,12 +53,4 @@ npm start
 ```
 
 Le jeu sera disponible à l'adresse http://localhost:3000 dans votre navigateur.
-Compilation et déploiement
 
-Pour créer une version de production optimisée de votre jeu, exécutez la commande suivante :
-
-```bash
-npm run build
-```
-
-Les fichiers de production seront créés dans le répertoire build. Vous pouvez déployer ces fichiers sur un serveur Web ou une plateforme de jeux en ligne de votre choix.
