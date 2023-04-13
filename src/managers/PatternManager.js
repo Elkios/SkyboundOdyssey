@@ -35,89 +35,35 @@ class PatternManager {
         { type: "coin", x: 650, y: window.innerHeight - 200 },
       ],
       [
-        {
-          type: "woodFenceSingle",
-          x: -100,
-          y: window.innerHeight - 200,
-          rotation: -45,
-        },
-        {
-          type: "woodFenceSingle",
-          x: 0,
-          y: window.innerHeight - 100,
-          rotation: 135,
-        },
-        { type: "woodFenceSingle", x: -100, y: 200, rotation: -135 },
-        { type: "woodFenceSingle", x: 0, y: 100, rotation: 45 },
-
-        { type: "coin", x: 200, y: window.innerHeight / 2 - 150 },
-        { type: "coin", x: 400, y: window.innerHeight / 2 - 150 },
-        { type: "coin", x: 600, y: window.innerHeight / 2 - 150 },
-        {
-          type: "lightningTrap",
-          x: 200,
-          y: window.innerHeight / 2,
-          rotation: 90,
-        },
-        {
-          type: "lightningTrap",
-          x: 400,
-          y: window.innerHeight / 2,
-          rotation: 90,
-        },
-        {
-          type: "lightningTrap",
-          x: 600,
-          y: window.innerHeight / 2,
-          rotation: 90,
-        },
-        { type: "coin", x: 200, y: window.innerHeight / 2 + 150 },
-        { type: "coin", x: 400, y: window.innerHeight / 2 + 150 },
-        { type: "coin", x: 600, y: window.innerHeight / 2 + 150 },
-
-        { type: "woodFenceSingle", x: 800, y: 200, rotation: 135 },
-        { type: "woodFenceSingle", x: 700, y: 100, rotation: -45 },
-        {
-          type: "woodFenceSingle",
-          x: 800,
-          y: window.innerHeight - 200,
-          rotation: 45,
-        },
-        {
-          type: "woodFenceSingle",
-          x: 700,
-          y: window.innerHeight - 100,
-          rotation: -135,
-        },
+          { type: "woodFenceSingle", x: -100, y: window.innerHeight - 200, rotation: -45 },
+          { type: "woodFenceSingle", x: 0, y: window.innerHeight - 100, rotation: 135 },
+          { type: "woodFenceSingle", x: -100, y: 200, rotation: -135 },
+          { type: "woodFenceSingle", x: 0, y: 100, rotation: 45 },
+          { type: "coin", x: 200 , y: (window.innerHeight / 2) - 150 },
+          { type: "coin", x: 400 , y: (window.innerHeight / 2) - 150 },
+          { type: "coin", x: 600 , y: (window.innerHeight / 2) - 150 },
+          { type: "lightningTrap", x: 200, y: window.innerHeight / 2, rotation: 90 },
+          { type: "lightningTrap", x: 400, y: window.innerHeight / 2, rotation: 90 },
+          { type: "lightningTrap", x: 600, y: window.innerHeight / 2, rotation: 90 },
+          { type: "coin", x: 200 , y: (window.innerHeight / 2) + 150 },
+          { type: "coin", x: 400 , y: (window.innerHeight / 2) + 150 },
+          { type: "coin", x: 600 , y: (window.innerHeight / 2) + 150 },
+          { type: "woodFenceSingle", x: 850, y: 200, rotation: 135 },
+          { type: "woodFenceSingle", x: 750, y: 100, rotation: -45 },
+          { type: "woodFenceSingle", x: 850, y: window.innerHeight - 200, rotation: 45 },
+          { type: "woodFenceSingle", x: 750, y: window.innerHeight - 100, rotation: -135 },
       ],
       [
         { type: "woodFenceMultiple", x: 0, y: 75, rotation: 180 },
         { type: "coin", x: 0, y: 250 },
         { type: "woodFenceMultiple", x: 0, y: window.innerHeight - 75 },
         { type: "coin", x: 0, y: window.innerHeight - 250 },
-
-        {
-          type: "woodFenceSingle",
-          x: 400 - 72,
-          y: window.innerHeight / 2,
-          rotation: -90,
-        },
-        {
-          type: "woodFenceSingle",
-          x: 400 + 72,
-          y: window.innerHeight / 2,
-          rotation: 90,
-        },
+        { type: "woodFenceSingle", x: 400 - 72, y: window.innerHeight / 2, rotation: -90 },
+        { type: "woodFenceSingle", x: 400 + 72, y: window.innerHeight / 2, rotation: 90 },
         { type: "coin", x: 400, y: 150 },
         { type: "coin", x: 400, y: window.innerHeight - 150 },
         { type: "woodFenceSingle", x: 400, y: window.innerHeight / 2 - 72 },
-        {
-          type: "woodFenceSingle",
-          x: 400,
-          y: window.innerHeight / 2 + 72,
-          rotation: 180,
-        },
-
+        { type: "woodFenceSingle", x: 400, y: window.innerHeight / 2 + 72, rotation: 180 },
         { type: "woodFenceMultiple", x: 800, y: 75, rotation: 180 },
         { type: "coin", x: 800, y: 250 },
         { type: "woodFenceMultiple", x: 800, y: window.innerHeight - 75 },
@@ -266,53 +212,32 @@ class PatternManager {
 
     switch (item.type) {
       case "spike1":
-        gameObject = this.obstacles.create(
-          this.scene.scale.width + item.x,
-          item.y,
-          "spike1"
-        );
+        gameObject = this.obstacles.create(this.scene.scale.width + item.x, item.y, "spike1");
         gameObject.setScale(0.2);
         break;
       case "woodFenceSingle":
-        gameObject = this.obstacles.create(
-          this.scene.scale.width + item.x,
-          item.y,
-          "woodFenceSingle"
-        );
+        gameObject = this.obstacles.create(this.scene.scale.width + item.x, item.y, "woodFenceSingle");
         gameObject.setScale(0.4);
+        gameObject.body.setSize(gameObject.width * 0.5, gameObject.height * 0.5);
+        gameObject.body.setOffset(gameObject.width * 0.25, gameObject.height * 0.25);
         break;
       case "woodFenceMultiple":
-        gameObject = this.obstacles.create(
-          this.scene.scale.width + item.x,
-          item.y,
-          "woodFenceMultiple"
-        );
+        gameObject = this.obstacles.create(this.scene.scale.width + item.x, item.y, "woodFenceMultiple");
         gameObject.setScale(0.4);
+        gameObject.body.setSize(gameObject.width * 0.75, gameObject.height * 0.75);
         break;
       case "ghost":
-        gameObject = this.obstacles.create(
-          this.scene.scale.width + item.x,
-          item.y,
-          "ghost_frame_1"
-        );
+        gameObject = this.obstacles.create(this.scene.scale.width + item.x, item.y, "ghost_frame_1");
         gameObject.anims.play("ghost_animation");
         gameObject.setScale(0.25);
         break;
       case "lightningTrap":
-        gameObject = this.obstacles.create(
-          this.scene.scale.width + item.x,
-          item.y,
-          "lightning_trap"
-        );
+        gameObject = this.obstacles.create(this.scene.scale.width + item.x, item.y, "lightning_trap");
         gameObject.anims.play("lightning_trap_animation");
         gameObject.setScale(1.5);
         break;
       case "coin":
-        gameObject = this.coins.create(
-          this.scene.scale.width + item.x,
-          item.y,
-          "goldCoin"
-        );
+        gameObject = this.coins.create(this.scene.scale.width + item.x, item.y, "goldCoin");
         gameObject.anims.play("coin_rotate");
         gameObject.setScale(0.1);
         break;
@@ -349,6 +274,20 @@ class PatternManager {
   getCoins() {
     return this.score;
   }
+
+    renderDebug() {
+        this.obstacles.getChildren().forEach((obstacle) => {
+            this.scene.physics.world.enable(obstacle);
+            obstacle.body.debugShowBody = true;
+            obstacle.body.debugShowVelocity = true;
+        });
+
+        this.coins.getChildren().forEach((coin) => {
+            this.scene.physics.world.enable(coin);
+            coin.body.debugShowBody = true;
+            coin.body.debugShowVelocity = true;
+        });
+    }
 }
 
 export default PatternManager;
