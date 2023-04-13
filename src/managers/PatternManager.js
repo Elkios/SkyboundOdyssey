@@ -243,7 +243,7 @@ class PatternManager {
     }
 
     getCoins() {
-        return this.coins;
+        return this.score;
     }
 
 }

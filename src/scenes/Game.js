@@ -278,8 +278,13 @@ class GameScene extends Phaser.Scene {
             const playerName = prompt("Entrez votre nom:");
             if (playerName && playerName.trim() !== '') {
                 // Replace 'dbInstance' with an instance of the dbCRUD class
-                this.goToMenu()
-                await this.dbCRUD.setRank(playerName.trim(), Math.floor(this.distance), this.patternManager.getCoins());
+                try {
+                    await this.dbCRUD.setRank(playerName.trim(), Math.floor(this.distance), this.patternManager.getCoins());
+                } catch (e) {
+                    console.error(e);
+                } finally {
+                    this.goToMenu()
+                }
             }
         }, this);
 
