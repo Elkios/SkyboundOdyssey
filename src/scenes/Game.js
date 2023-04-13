@@ -459,6 +459,7 @@ class GameScene extends Phaser.Scene {
       }
       this.footstepsSound.stop();
     } else {
+      this.jetpackSound.stop();
       if (isOnFloor) {
         console.log("on floor");
         this.character.anims.play("running", true);
@@ -469,8 +470,6 @@ class GameScene extends Phaser.Scene {
         if (!this.footstepsSound.isPlaying) {
           this.footstepsSound.play({ loop: true });
         }
-
-        this.jetpackSound.stop();
       } else {
         this.character.anims.play("idle", true);
         this.character.setVelocityX(
@@ -478,7 +477,6 @@ class GameScene extends Phaser.Scene {
         );
         // Apply gravity when the character is not on the floor and the spacebar is not pressed
         this.character.setVelocityY(300);
-        this.jetpackSound.stop();
       }
     }
   }
