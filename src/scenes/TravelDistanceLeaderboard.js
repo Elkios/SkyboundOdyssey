@@ -24,7 +24,7 @@ class TravelDistanceLeaderboardScene extends Phaser.Scene {
                 mapCoins.set(data[key].username, data[key].travelDistance);
             }
         }
-        let mapAsc = new Map([...mapCoins.entries()].sort((a,b) => a[1] < b[1]));
+        let mapAsc = new Map([...mapCoins.entries()].sort((a,b) => b[1] - a[1]));
         return mapAsc;
     }
 
