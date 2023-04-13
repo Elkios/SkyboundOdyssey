@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import PatternManager from '../managers/PatternManager';
 import ParallaxManager from "../managers/ParallaxManager";
 import dbCRUD from "../managers/dbCRUD"
-import { DOMInputElement } from 'phaser';
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -182,6 +181,7 @@ class GameScene extends Phaser.Scene {
         this.footstepsSound.stop();
         this.jetpackSound.stop()
         this.character.anims.stop();
+        this.sound.stopAll();
         this.character.setVelocityX(0)
 
         this.patternManager.stop()

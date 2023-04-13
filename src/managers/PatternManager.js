@@ -81,8 +81,8 @@ class PatternManager {
     preload() {
         // Obstacles
         this.scene.load.image("spike1", "assets/obstacles/spike/spike_1.png");
-        this.scene.load.image("woodFenceSingle", "assets/obstacles/woodfence/single.png");
-        this.scene.load.image("woodFenceMultiple", "assets/obstacles/woodfence/multiple.png");
+        this.scene.load.image("woodFenceSingle", "assets/obstacles/woodFence/single.png");
+        this.scene.load.image("woodFenceMultiple", "assets/obstacles/woodFence/multiple.png");
 
         // Ghost
         for (let i = 1; i <= 30; i++) {
